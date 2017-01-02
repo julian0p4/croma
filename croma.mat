@@ -1,0 +1,33 @@
+%%convertendo em escala de cinza
+g1= rgb2gray(x1);
+%%convertendo imagens em linhas
+c1 = g1(:);
+%%Alinhameno variáveis
+vn = [c1; c2;...]
+%%TRANFORMAR UNIT8 EM DOUBLE MATRIZ vn
+%%anova
+pvn = anova1(vn)
+%%histogramas curva
+h1 = imhist(g1);
+htotal = [h1]
+plot(htotal)
+%%histogramas curva aquisição de Emax
+[ elem, indice] = max(h1)
+%%Conversão dos valores r,g e b para os valores x,y e z do diagrama de cromaticidade.D65-E (ASTM
+E308-01)
+%%RGB -->XYZ -->xyz(xyY)
+%%input RGB = [R;G;B]
+M = [0.4887180, 0.3106803, 0.2006017; 0.1762044, 0.8129847,0.0108109; 0.0000000, 0.0102048,
+0.9897952]
+XYZ = M*RGB
+a = XYZ(1,:);
+b = XYZ(2,:);
+c = XYZ(3,:);
+d = a+b+c;
+x = a/d;
+y = b/d;
+Y = c/d;
+xyY = [x; y; Y]
+%% XYZ com rec709 display e branco D65
+M2 =[0.4124564 0.3575761 0.1804375 0.2126729 0.7151522 0.0721750 0.0193339 0.1191920
+0.9503041];
